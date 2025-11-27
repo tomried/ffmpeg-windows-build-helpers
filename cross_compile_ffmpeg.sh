@@ -1517,11 +1517,10 @@ build_libbluray() {
         sed -i.bak "/WIN32$/,+4d" src/udfread.c # Fix WinXP incompatibility.
       fi
       if [[ ! -f src/udfread-version.h ]]; then
-        generic_configure # Generate 'udfread-version.h', or building Libbluray fails otherwise.
+        generic_meson
       fi
     cd ../..
-    generic_configure "--disable-examples --disable-bdjava-jar"
-    do_make_and_make_install "CPPFLAGS=\"-Ddec_init=libbr_dec_init\""
+    generic_meson
   cd ..
 }
 
@@ -1547,7 +1546,7 @@ build_libflite() {
   # download_and_unpack_file http://www.festvox.org/flite/packed/flite-2.1/flite-2.1-release.tar.bz2
   # original link is not working so using a substitute
   # from a trusted source
-  download_and_unpack_file http://deb.debian.org/debian/pool/main/f/flite/flite_2.1-release.orig.tar.bz2 flite-2.1-release
+  download_and_unpack_file https://old-releases.ubuntu.com/ubuntu/pool/universe/f/flite/flite_2.1-release.orig.tar.bz2 flite-2.1-release
   cd flite-2.1-release
     apply_patch file://$patch_dir/flite-2.1.0_mingw-w64-fixes.patch
     if [[ ! -f main/Makefile.bak ]]; then
@@ -1567,8 +1566,8 @@ build_libsnappy() {
 }
 
 build_vamp_plugin() {
-  download_and_unpack_file https://code.soundsoftware.ac.uk/attachments/download/2691/vamp-plugin-sdk-2.10.0.tar.gz
-  cd vamp-plugin-sdk-2.10.0
+  download_and_unpack_file https://github.com/vamp-plugins/vamp-plugin-sdk/archive/refs/tags/vamp-plugin-sdk-v2.10.zip vamp-plugin-sdk-vamp-plugin-sdk-v2.10
+  cd vamp-plugin-sdk-vamp-plugin-sdk-v2.10
     apply_patch file://$patch_dir/vamp-plugin-sdk-2.10_static-lib.diff
     if [[ $compiler_flavors != "native" && ! -f src/vamp-sdk/PluginAdapter.cpp.bak ]]; then
       sed -i.bak "s/#include <mutex>/#include <mingw.mutex.h>/" src/vamp-sdk/PluginAdapter.cpp
