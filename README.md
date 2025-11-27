@@ -14,6 +14,12 @@ Takes about 2 hours.
 
 Deploy a Linux VM on the host of your choice (>= 20.04 for Ubuntu), or natively on an extra computer or a dual boot system, or via a hosting provider such as Digital Ocean.  Cheapest way: install windows 10 wsl bash shell.  Another option: linux on a virtualbox VM.  Another option, typically fast: temporarily rent a box (ex: DigitalOcean or vultr).  
 
+Prepare ubuntu distrobox with dependencies:
+
+    $ distrobox create -n ubuntu -i ubuntu:24.04
+    $ distrobox enter ubuntu
+    $ sudo apt install python-is-python3 libtool cmake clang meson autogen gperf nasm pax ed g++ texinfo bison flex cvs yasm automake autoconf gcc subversion make pkg-config ragel
+
 Download the script by cloning this repository via git:
 
     $ git clone https://github.com/rdp/ffmpeg-windows-build-helpers.git
